@@ -299,6 +299,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1655339426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1655339428}
+  - component: {fileID: 1655339427}
+  m_Layer: 0
+  m_Name: FlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1655339427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655339426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb4556bd897a486f99205fe2aa90c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlockManager
+  boidPrefab: {fileID: 7122151944200389901, guid: 529bee8aea57a46b887e944a74bafd4f, type: 3}
+  leaderMaterial: {fileID: 2100000, guid: abbe0052cfbe24744b984fb281d1585c, type: 2}
+  limits: {x: 18, y: 0, z: 18}
+  allBoids: []
+  leaders: []
+  numBoids: 30
+  numLeaders: 2
+  minSpeed: 2
+  maxSpeed: 4
+  neighbourDistance: 3
+  rotationSpeed: 2
+  cohesionWeight: 1
+  alignWeight: 1
+  separationWeight: 1.5
+  leaderWeight: 2
+  avoidWeight: 5
+  avoidDistance: 2
+--- !u!4 &1655339428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655339426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2095956908
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -367,3 +428,4 @@ SceneRoots:
   - {fileID: 1468346443}
   - {fileID: 777831562}
   - {fileID: 2095956908}
+  - {fileID: 1655339428}
