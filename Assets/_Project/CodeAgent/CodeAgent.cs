@@ -36,7 +36,7 @@ public class CodeAgent : MonoBehaviour
     void Pursue()
     {
         Vector3 targetDir = target.transform.position - transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + targetDrive.currentSpeed);
+        float lookAhead = targetDir.magnitude / (agent.speed + Mathf.Abs(targetDrive.currentSpeed));
         Seek(target.transform.position + target.transform.forward * targetDrive.currentSpeed * lookAhead);
     }
 
@@ -44,7 +44,7 @@ public class CodeAgent : MonoBehaviour
     void Evade()
     {
         Vector3 targetDir = target.transform.position - transform.position;
-        float lookAhead = targetDir.magnitude / (agent.speed + targetDrive.currentSpeed);
+        float lookAhead = targetDir.magnitude / (agent.speed + Mathf.Abs(targetDrive.currentSpeed));
         Flee(target.transform.position + target.transform.forward * targetDrive.currentSpeed * lookAhead);
     }
 
