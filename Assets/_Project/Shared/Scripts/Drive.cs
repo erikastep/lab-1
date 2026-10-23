@@ -7,13 +7,14 @@ public class Drive : MonoBehaviour
 {
     public float speed = 10.0f;
     public float rotationSpeed = 100.0f;
-    public float currentSpeed = 0;   // read by the agents to predict where the player goes
+    public float currentSpeed = 0;   // speed per second, read by the agents to predict where the player goes
 
     void Update()
     {
         // Get the horizontal and vertical axis (arrow keys), values from -1 to 1
         float translation = Input.GetAxis("Vertical") * speed;
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
+        currentSpeed = translation;
 
         // Move per second instead of per frame
         translation *= Time.deltaTime;
@@ -21,7 +22,6 @@ public class Drive : MonoBehaviour
 
         // Move forward/back on the z-axis and rotate around the y-axis
         transform.Translate(0, 0, translation);
-        currentSpeed = translation;
         transform.Rotate(0, rotation, 0);
 
         // Show the forward direction in the Scene view
