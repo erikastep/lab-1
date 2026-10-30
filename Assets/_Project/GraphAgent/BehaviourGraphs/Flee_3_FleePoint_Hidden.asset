@@ -66,7 +66,7 @@ MonoBehaviour:
         GUID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         m_Value: 1
     - rid: 8745218095787802941
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: Flee_3_FleePoint_Hidden
   m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorAuthoringGraph
   Blackboard: {fileID: 8742337566752236266}
-  m_Description: 
+  m_Description: 'Flee attempt 3. Seeks the Target; when the Target is closer than SafetyDistance, runs to a hidden flee point (HiddenFleePoint).'
   m_Nodes:
   - rid: 5263607885371015359
   - rid: 8745218074538410346
@@ -836,7 +836,7 @@ MonoBehaviour:
         ID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         IsExposed: 1
         m_IsShared: 0
         m_Value: 1
@@ -1038,7 +1038,7 @@ MonoBehaviour:
         GUID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         m_Value: 1
     - rid: 8745218095787802983
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
@@ -1244,7 +1244,7 @@ MonoBehaviour:
         ID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         IsExposed: 1
         m_IsShared: 0
         m_Value: 1

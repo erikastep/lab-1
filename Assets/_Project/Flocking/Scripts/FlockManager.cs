@@ -1,16 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Spawns the flock and holds all the settings. Attach to an empty object in the arena.
+// Spawns the flock and holds all the settings
 public class FlockManager : MonoBehaviour
 {
-    // Static instance so every boid can read the settings
     public static FlockManager FM;
 
     public GameObject boidPrefab;
     public Material leaderMaterial;
-    public Vector3 limits = new Vector3(18, 0, 18);   // area where boids spawn and leaders wander
+    public Vector3 limits = new Vector3(18, 0, 18);   // spawn area
 
     public GameObject[] allBoids;
     public List<GameObject> leaders = new List<GameObject>();
@@ -23,42 +21,52 @@ public class FlockManager : MonoBehaviour
     [Range(0.5f, 10f)] public float minSpeed = 2;
     [Range(0.5f, 10f)] public float maxSpeed = 4;
     [Range(1f, 10f)] public float neighbourDistance = 3;
-    [Range(0.5f, 5f)] public float rotationSpeed = 2;
+    [Range(0.5f, 5f)] public float rotationSpeed = 4;
 
     [Header("Rule Weights")]
-    [Range(0f, 5f)] public float cohesionWeight = 1;
+    [Range(0f, 5f)] public float cohesionWeight = 0.8f;
     [Range(0f, 5f)] public float alignWeight = 1;
-    [Range(0f, 5f)] public float separationWeight = 1.5f;
+    [Range(0f, 5f)] public float separationWeight = 3f;
+    [Range(0.5f, 3f)] public float separationDistance = 2f;
     [Range(0f, 5f)] public float leaderWeight = 2;
+    [Range(0.5f, 5f)] public float followDistance = 2f;
     [Range(0f, 10f)] public float avoidWeight = 5;
     [Range(1f, 5f)] public float avoidDistance = 2;
 
     int spawnedBoids, spawnedLeaders;
 
-    void Start()
+    void OnEnable()
     {
         FM = this;
+    }
+
+    void Start()
+    {
         Spawn();
     }
 
     void Update()
     {
-        // Respawn the flock when the counts are changed in the Inspector
+        // Respawn when the sliders change
         if (numBoids != spawnedBoids || numLeaders != spawnedLeaders)
             Spawn();
     }
 
-    // Destroys the old flock and creates a new one; the first boids become leaders
+    // Create the flock (first boids = leaders)
     void Spawn()
     {
+        // Remove the old flock
         if (allBoids != null)
             foreach (GameObject b in allBoids) Destroy(b);
         leaders.Clear();
 
+        // Create the new flock
         allBoids = new GameObject[numBoids];
         for (int i = 0; i < numBoids; i++)
         {
             allBoids[i] = Instantiate(boidPrefab, RandomFreePoint(), Quaternion.Euler(0, Random.Range(0, 360), 0), transform);
+
+            // Leader: bigger and different colour
             if (i < numLeaders)
             {
                 allBoids[i].GetComponent<Flock>().isLeader = true;
@@ -71,7 +79,7 @@ public class FlockManager : MonoBehaviour
         spawnedLeaders = numLeaders;
     }
 
-    // Random point inside the limits that is not inside a wall or obstacle
+    // Random point that is not inside an obstacle
     public Vector3 RandomFreePoint()
     {
         Vector3 pos;

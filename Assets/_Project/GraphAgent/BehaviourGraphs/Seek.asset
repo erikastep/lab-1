@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: Seek
   m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorAuthoringGraph
   Blackboard: {fileID: 8742337566752236266}
-  m_Description: 
+  m_Description: The agent keeps navigating to the Target (the Player), using only built-in nodes (On Start with Repeat, then Navigate To Target).
   m_Nodes:
   - rid: 5263607885371015359
   - rid: 8745218074538410346
@@ -120,8 +120,8 @@ MonoBehaviour:
   m_DebugInfo: {fileID: -2989916861809651399}
   m_RuntimeGraph: {fileID: 3421783436226382704}
   AssetID:
-    m_Value0: 510207653451630886
-    m_Value1: 6993385867347916859
+    m_Value0: 17596842596478594611
+    m_Value1: 3377701395881073672
   Story:
     Story: 
     StoryVariableNames: []
@@ -389,7 +389,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 1
+        m_Value: 6
     - rid: 8745218074538410360
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -397,7 +397,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 0.2
+        m_Value: 1.5
     - rid: 8745218074538410361
       type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -455,8 +455,8 @@ MonoBehaviour:
       type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         AuthoringAssetID:
-          m_Value0: 510207653451630886
-          m_Value1: 6993385867347916859
+          m_Value0: 17596842596478594611
+          m_Value1: 3377701395881073672
         m_DebugInfo: {fileID: -2989916861809651399}
         BlackboardReference:
           rid: 5263607885371015362
@@ -584,7 +584,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 1
+        m_Value: 6
     - rid: 8745218074538410410
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -592,7 +592,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 0.2
+        m_Value: 1.5
     - rid: 8745218074538410411
       type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -638,16 +638,11 @@ MonoBehaviour:
   m_Name: Seek Blackboard
   m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorBlackboardAuthoringAsset
   AssetID:
-    m_Value0: 510207653451630886
-    m_Value1: 6993385867347916859
+    m_Value0: 17596842596478594611
+    m_Value1: 3377701395881073672
   m_Variables:
   - rid: 5263607885371015366
   - rid: 5263607885371015375
-  - rid: 5263607885371015383
-  - rid: 8745218074538410176
-  - rid: 8745218074538410190
-  - rid: 8745218074538410206
-  - rid: 8745218074538410232
   m_VersionTimestamp: 639284493479810568
   m_CommandBuffer:
     m_Commands: []
@@ -672,56 +667,6 @@ MonoBehaviour:
           m_Value0: 17858827317659305290
           m_Value1: 15016762097618975450
         Name: Target
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 5263607885371015383
-      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 18410573846393678168
-          m_Value1: 9123310124754403921
-        Name: SafetyDistance
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: 10
-    - rid: 8745218074538410176
-      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 14181789801456978688
-          m_Value1: 2726061369813114509
-        Name: EscapePointA
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 8745218074538410190
-      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 13210918353141994246
-          m_Value1: 10150449090377344615
-        Name: EscapePointB
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
-    - rid: 8745218074538410206
-      type: {class: 'TypedVariableModel`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 17316776029846210602
-          m_Value1: 9331585913035882645
-        Name: EscapePoints
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: []
-    - rid: 8745218074538410232
-      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 5050318144251238761
-          m_Value1: 9749733785120205905
-        Name: FleePoint
         IsExposed: 1
         m_IsShared: 0
         m_Value: {fileID: 0}
