@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-// Part 1: the agent pursues the player when it is far away
-// and evades the player when it is closer than safetyDistance.
+// Code agent: pursue when far, evade when close
 public class CodeAgent : MonoBehaviour
 {
     public GameObject target;
@@ -19,20 +18,20 @@ public class CodeAgent : MonoBehaviour
         targetDrive = target.GetComponent<Drive>();
     }
 
-    // Go to a position
+    // Seek: go to a position
     void Seek(Vector3 location)
     {
         agent.SetDestination(location);
     }
 
-    // Go away from a position
+    // Flee: go away from a position
     void Flee(Vector3 location)
     {
         Vector3 fleeVector = location - transform.position;
         agent.SetDestination(transform.position - fleeVector);
     }
 
-    // Seek the position where the player is going to be
+    // Pursue: seek where the player will be
     void Pursue()
     {
         Vector3 targetDir = target.transform.position - transform.position;
@@ -40,7 +39,7 @@ public class CodeAgent : MonoBehaviour
         Seek(target.transform.position + target.transform.forward * targetDrive.currentSpeed * lookAhead);
     }
 
-    // Flee from the position where the player is going to be
+    // Evade: flee from where the player will be
     void Evade()
     {
         Vector3 targetDir = target.transform.position - transform.position;
@@ -52,12 +51,13 @@ public class CodeAgent : MonoBehaviour
     {
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
-        // buffer around safetyDistance so the agent does not flicker at the border
+        // Switch between pursue and evade (buffer stops flickering)
         if (distance < safetyDistance - buffer)
             isFleeing = true;
         else if (distance > safetyDistance + buffer)
             isFleeing = false;
 
+        // Do the behaviour
         if (isFleeing)
         {
             Evade();
@@ -70,7 +70,7 @@ public class CodeAgent : MonoBehaviour
         }
     }
 
-    // Draw the safety distance and the buffer in the Scene view
+    // Draw the safety distance circles
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

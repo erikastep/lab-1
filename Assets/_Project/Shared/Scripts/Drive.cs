@@ -1,32 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// Moves the player with the arrow keys: the player walks in the pressed direction and faces it
+// Player movement with the arrow keys
 public class Drive : MonoBehaviour
 {
     public float speed = 10.0f;
-    public float currentSpeed = 0;   // speed per second, read by the agents to predict where the player goes
+    public float currentSpeed = 0;   // used by the code agent
 
     void Update()
     {
-        // Arrow keys give a direction on the ground (x = left/right, z = up/down)
+        // Arrow keys -> direction
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        input = Vector3.ClampMagnitude(input, 1);   // diagonals are not faster
+        input = Vector3.ClampMagnitude(input, 1);
         currentSpeed = input.magnitude * speed;
 
-        if (input.magnitude > 0.01f)
+        if (currentSpeed > 0)
         {
-            // Face the direction we are moving
+            // Face the direction
             transform.rotation = Quaternion.LookRotation(input);
 
-            // Move forward, but only if no wall or obstacle is in the way
+            // Move (only if nothing is in front)
             float step = currentSpeed * Time.deltaTime;
-            if (!Physics.SphereCast(transform.position, 0.4f, transform.forward, out _, step + 0.1f))
+            if (!Physics.SphereCast(transform.position - transform.forward * 0.3f, 0.4f, transform.forward, out _, step + 0.4f))
                 transform.Translate(0, 0, step);
         }
 
-        // Show the forward direction in the Scene view
-        Debug.DrawRay(transform.position, transform.forward * 2, Color.red);
+        PushOutOfColliders();
+    }
+
+    // Push out if something is inside the player
+    void PushOutOfColliders()
+    {
+        Collider me = GetComponent<Collider>();
+        foreach (Collider other in Physics.OverlapSphere(transform.position, 1f))
+        {
+            if (other != me && Physics.ComputePenetration(me, transform.position, transform.rotation,
+                                                          other, other.transform.position, other.transform.rotation,
+                                                          out Vector3 direction, out float distance))
+            {
+                direction.y = 0;
+                transform.position += direction * distance;
+            }
+        }
     }
 }

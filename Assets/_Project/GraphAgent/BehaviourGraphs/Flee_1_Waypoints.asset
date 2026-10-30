@@ -74,7 +74,7 @@ MonoBehaviour:
         GUID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         m_Value: 1
 --- !u!114 &-2989916861809651399
 MonoBehaviour:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: Flee_1_Waypoints
   m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorAuthoringGraph
   Blackboard: {fileID: 8742337566752236266}
-  m_Description: 
+  m_Description: 'Flee attempt 1. Seeks the Target; when the Target is closer than SafetyDistance, runs to one fixed escape point (EscapePointA).'
   m_Nodes:
   - rid: 5263607885371015359
   - rid: 8745218074538410346
@@ -846,7 +846,7 @@ MonoBehaviour:
         ID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         IsExposed: 1
         m_IsShared: 0
         m_Value: 1
@@ -946,7 +946,7 @@ MonoBehaviour:
         GUID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         m_Value: 1
     - rid: 8745218095787802701
       type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
@@ -1254,7 +1254,7 @@ MonoBehaviour:
         ID:
           m_Value0: 17946776246401689642
           m_Value1: 5319116068892290040
-        Name: DistanceTreshold
+        Name: DistanceThreshold
         IsExposed: 1
         m_IsShared: 0
         m_Value: 1
