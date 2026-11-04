@@ -22,7 +22,7 @@ Team: Erika, Gabriele, Bianca. Unity **6000.6.4f1** (use exactly this version).
 | **GRAPH AGENT** | Part 2 – Behavior Graph agent that **seeks** the player with built-in nodes only | Bianca |
 | **FLOCKING** | Part 4 – flock with leaders, adjustable forces and obstacle avoidance | Erika |
 
-## Part 1 – Code agent (`CodeAgent/CodeAgent.cs`)
+## Part 1 – Code agent (`CodeAgent/Scripts/CodeAgent.cs`)
 - `Seek` / `Flee` / `Pursue` / `Evade` steering from Topic 1, moving with a NavMeshAgent.
 - The switch between pursue and evade is in `Update()`: closer than `safetyDistance - buffer` → evade, farther than `safetyDistance + buffer` → pursue. The buffer stops it flickering at the border.
 - Inspector: **Target**, **Safety Distance**, **Buffer**. Yellow gizmo circle = safety distance.
@@ -47,13 +47,15 @@ There is no built-in node that computes a point away from the target, so each at
 - `Flock.cs` is one boid. Leaders wander; followers use cohesion + align + separation and follow a point behind the closest leader. Sphere casts keep boids out of walls and obstacles, and a personal-space check stops them overlapping.
 
 ## Project structure
-| Folder | Owner | Test scene |
+Each part has its own folder in `Assets/_Project/`, split into `Scripts/`, `Prefabs/` (and `Materials/` or `BehaviourGraphs/`), plus a test scene.
+
+| Folder | Owner | Contents |
 | --- | --- | --- |
-| `Assets/_Project/Shared/` | Erika | – (Player, Arena, `Drive.cs`, `CameraSwitcher.cs`) |
-| `Assets/_Project/CodeAgent/` | Gabriele | `CodeAgentTest.unity` |
-| `Assets/_Project/GraphAgent/` | Bianca | `GraphAgentTest.unity` |
-| `Assets/_Project/Flocking/` | Erika | `FlockingTest.unity` |
-| `Assets/_Project/Scenes/Lab1_Main.unity` | Erika | final scene |
+| `Shared/` | Erika | Player, Arena, `Drive.cs`, `CameraSwitcher.cs` |
+| `CodeAgent/` | Gabriele | `CodeAgent.cs`, CodeAgent prefab, `CodeAgentTest.unity` |
+| `GraphAgent/` | Bianca | Seek + Flee graphs, GraphAgent prefab, `GraphAgentTest.unity` |
+| `Flocking/` | Erika | `Flock.cs`, `FlockManager.cs`, Boid prefab, `FlockingTest.unity` |
+| `Scenes/` | Erika | `Lab1_Main.unity` (final scene) |
 
 Packages: **Behavior** and **AI Navigation**. Every arena has a baked NavMesh.
 
