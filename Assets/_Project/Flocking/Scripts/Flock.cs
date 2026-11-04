@@ -38,7 +38,7 @@ public class Flock : MonoBehaviour
         if (!blocked)
             transform.Translate(0, 0, currentSpeed * Time.deltaTime);
         else if (isLeader)
-            wanderGoal = fm.RandomFreePoint();   // stuck leader picks a new goal
+            wanderGoal = fm.RandomFreePoint();   // stuck: new goal
 
         // Don't overlap other boids
         if (!isLeader)
@@ -53,7 +53,7 @@ public class Flock : MonoBehaviour
         return (wanderGoal - transform.position).normalized;
     }
 
-    // Pick a new goal in front of the leader, so it doesn't turn around through its own flock
+    // Leaders: new goal in front
     Vector3 NewGoalAhead()
     {
         Vector3 goal = FlockManager.FM.RandomFreePoint();
@@ -86,7 +86,7 @@ public class Flock : MonoBehaviour
             if (distance > 0 && distance < fm.separationDistance)
                 separation += (transform.position - other.transform.position).normalized * (1 - distance / fm.separationDistance);
 
-            // Leader right in front of us: steer around it (to the right), closer = stronger
+            // Leader in front: steer around it
             Vector3 toOther = other.transform.position - transform.position;
             float range = fm.separationDistance * 1.5f;
             if (fm.leaders.Contains(other) && distance < range && Vector3.Dot(transform.forward, toOther.normalized) > 0.7f)
@@ -109,9 +109,9 @@ public class Flock : MonoBehaviour
         {
             Vector3 toFollowPoint = leader.transform.position - leader.transform.forward * fm.followDistance - transform.position;
             float d = toFollowPoint.magnitude;
-            direction += toFollowPoint.normalized * fm.leaderWeight * Mathf.Clamp01(d / fm.followDistance);   // weaker pull when close
+            direction += toFollowPoint.normalized * fm.leaderWeight * Mathf.Clamp01(d / fm.followDistance);
 
-            // Close to the leader: slow down to the leader's speed, so we don't overshoot and turn around
+            // Close to the leader: slow down
             currentSpeed = d < fm.followDistance * 2 ? fm.minSpeed : speed;
         }
 
@@ -154,14 +154,14 @@ public class Flock : MonoBehaviour
         {
             Vector3 away = transform.position - other.transform.position;
             bool otherIsLeader = fm.leaders.Contains(other);
-            float space = otherIsLeader ? personalSpace * 1.5f : personalSpace;   // leaders are bigger
-            float share = otherIsLeader ? 1f : 0.5f;                            // leaders don't move aside, so we move the whole way
+            float space = otherIsLeader ? personalSpace * 1.5f : personalSpace;
+            float share = otherIsLeader ? 1f : 0.5f;
             if (other != gameObject && away.magnitude > 0 && away.magnitude < space)
                 push += away.normalized * (space - away.magnitude) * share;
         }
         push.y = 0;
 
-        // Only if no wall is in the way
+        // Move (only if no wall is in the way)
         if (push != Vector3.zero && !Physics.SphereCast(transform.position, 0.3f, push, out _, push.magnitude + 0.2f))
             transform.position += push;
     }

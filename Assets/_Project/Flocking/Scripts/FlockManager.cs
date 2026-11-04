@@ -84,7 +84,7 @@ public class FlockManager : MonoBehaviour
     {
         Vector3 pos;
         do pos = transform.position + new Vector3(Random.Range(-limits.x, limits.x), 0, Random.Range(-limits.z, limits.z));
-        while (Physics.CheckSphere(pos + Vector3.up, 0.8f));   // check a bit higher, so the floor doesn't count
+        while (Physics.CheckSphere(pos + Vector3.up, 0.8f));
         return pos;
     }
 }
