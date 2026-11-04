@@ -6,12 +6,14 @@ public class Flock : MonoBehaviour
 {
     public bool isLeader = false;
     float speed;
+    float currentSpeed;
     Vector3 wanderGoal;
 
     void Start()
     {
         // Leaders are slower so followers can keep up
         speed = isLeader ? FlockManager.FM.minSpeed : Random.Range(FlockManager.FM.minSpeed, FlockManager.FM.maxSpeed);
+        currentSpeed = speed;
         wanderGoal = FlockManager.FM.RandomFreePoint();
     }
 
@@ -34,7 +36,7 @@ public class Flock : MonoBehaviour
 
         // Move forward (only if not blocked)
         if (!blocked)
-            transform.Translate(0, 0, speed * Time.deltaTime);
+            transform.Translate(0, 0, currentSpeed * Time.deltaTime);
         else if (isLeader)
             wanderGoal = fm.RandomFreePoint();   // stuck leader picks a new goal
 
@@ -47,8 +49,17 @@ public class Flock : MonoBehaviour
     Vector3 Wander()
     {
         if (Vector3.Distance(transform.position, wanderGoal) < 2)
-            wanderGoal = FlockManager.FM.RandomFreePoint();
+            wanderGoal = NewGoalAhead();
         return (wanderGoal - transform.position).normalized;
+    }
+
+    // Pick a new goal in front of the leader, so it doesn't turn around through its own flock
+    Vector3 NewGoalAhead()
+    {
+        Vector3 goal = FlockManager.FM.RandomFreePoint();
+        for (int i = 0; i < 10 && Vector3.Dot(transform.forward, goal - transform.position) < 0; i++)
+            goal = FlockManager.FM.RandomFreePoint();
+        return goal;
     }
 
     // Followers: cohesion + align + separation + follow the leader
@@ -74,6 +85,12 @@ public class Flock : MonoBehaviour
             // Separation (closer = stronger)
             if (distance > 0 && distance < fm.separationDistance)
                 separation += (transform.position - other.transform.position).normalized * (1 - distance / fm.separationDistance);
+
+            // Leader right in front of us: steer around it (to the right), closer = stronger
+            Vector3 toOther = other.transform.position - transform.position;
+            float range = fm.separationDistance * 1.5f;
+            if (fm.leaders.Contains(other) && distance < range && Vector3.Dot(transform.forward, toOther.normalized) > 0.7f)
+                separation += Vector3.Cross(Vector3.up, toOther).normalized * (1 - distance / range);
         }
 
         Vector3 direction = separation * fm.separationWeight;
@@ -90,8 +107,12 @@ public class Flock : MonoBehaviour
         GameObject leader = fm.leaders.OrderBy(l => Vector3.Distance(l.transform.position, transform.position)).FirstOrDefault();
         if (leader != null)
         {
-            Vector3 followPoint = leader.transform.position - leader.transform.forward * fm.followDistance;
-            direction += (followPoint - transform.position).normalized * fm.leaderWeight;
+            Vector3 toFollowPoint = leader.transform.position - leader.transform.forward * fm.followDistance - transform.position;
+            float d = toFollowPoint.magnitude;
+            direction += toFollowPoint.normalized * fm.leaderWeight * Mathf.Clamp01(d / fm.followDistance);   // weaker pull when close
+
+            // Close to the leader: slow down to the leader's speed, so we don't overshoot and turn around
+            currentSpeed = d < fm.followDistance * 2 ? fm.minSpeed : speed;
         }
 
         return direction;
@@ -132,8 +153,11 @@ public class Flock : MonoBehaviour
         foreach (GameObject other in fm.allBoids)
         {
             Vector3 away = transform.position - other.transform.position;
-            if (other != gameObject && away.magnitude > 0 && away.magnitude < personalSpace)
-                push += away.normalized * (personalSpace - away.magnitude) * 0.5f;
+            bool otherIsLeader = fm.leaders.Contains(other);
+            float space = otherIsLeader ? personalSpace * 1.5f : personalSpace;   // leaders are bigger
+            float share = otherIsLeader ? 1f : 0.5f;                            // leaders don't move aside, so we move the whole way
+            if (other != gameObject && away.magnitude > 0 && away.magnitude < space)
+                push += away.normalized * (space - away.magnitude) * share;
         }
         push.y = 0;
 
